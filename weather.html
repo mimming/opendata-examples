@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/rsvp/rsvp.js"></script>
+  <script src="bower_components/geofire/dist/geofire.js"></script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Firebase Open Data Sets examples - Weather">
+  <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all">
+
+  <title>Firebase Open Data Sets examples - Weather</title>
+</head>
+
+<body>
+  <header>
+    Firebase Open Data Sets Examples - Weather
+  </header>
+
+  <div class="weather-opendata-example">
+      <div>
+          Select a City:
+          <select class="weather-city-selector">
+
+          </select>
+      </div>
+      <div>
+          <p class="weather-display">
+              Temperature: <span class="weather-temperature"></span>
+          </p>
+          <p class="weather-display">
+              Summary: <span class="weather-summary"></span>
+          </p>
+      </div>
+  </div>
+
+  <script>
+    /*
+     * weather.js
+     *
+     * powering the weather.html open data example
+     */
+
+    /* globals Firebase */
+
+    var weather = {
+      ref: undefined,
+      $container: undefined,
+      $citySelector: undefined,
+      $weatherTemperature: undefined,
+      $weatherSummary: undefined,
+      cities: ["Austin", "Baltimore", "Boston", "Charlotte", "Chicago", "Columbus",
+               "Dallas", "Denver", "Detroit", "El Paso", "Fortworth", "Houston",
+               "Indianapolis", "Jacksonville", "Las Vegas", "Los Angeles", "Memphis",
+               "Milwaukee", "Nashville", "New York", "Oklahoma City", "Philadelphia",
+               "Phoenix", "Portland", "San Antonio", "San Diego", "San Francisco",
+               "San Jose", "Seattle", "Tucson", "Washington"],
+      optionTemplate: _.template("<option value='<%= cityData.toLowerCase().replace(' ', '')%>'><%= cityData %></option>"),
+
+      /*
+       * init
+       *
+       * check for the correct page, then init the module
+       */
+
+      init: function() {
+        this.$container = $(".weather-opendata-example");
+
+        if (this.$container.length) {
+          this.ref = new Firebase('https://publicdata-weather.firebaseio.com');
+          this.registerElements();
+          this.renderFormOptions();
+          this.changeCity();
+        }
+      },
+
+      /*
+       * registerElements
+       *
+       * register the elements used in this example
+       */
+
+      registerElements: function() {
+        this.$citySelector = $(".weather-city-selector");
+        this.$weatherTemperature = $(".weather-temperature");
+        this.$weatherSummary = $(".weather-summary");
+      },
+
+      /*
+       * renderFormOptions
+       *
+       * generate selector options from city list
+       */
+
+      renderFormOptions: function() {
+        for (var i = 0; i < this.cities.length; i++) {
+          this.$citySelector.append(this.optionTemplate({
+            cityData: this.cities[i]
+          }));
+        }
+      },
+
+      /*
+       * changeCity
+       *
+       * set listeners on the city selector and open data set firebase for all the cities
+       */
+
+      changeCity: function() {
+        var self = this;
+
+        this.$citySelector.change(function() {
+          var currentRef;
+          var cityValue = self.$citySelector.val();
+
+          // CLEAR REFERENCES TO OTHER CITIES
+          if (self.ref) {
+            self.ref.off();
+          }
+
+          // SET LISTENER ON NEW CITY AND RENDER INFO
+          currentRef = self.ref.child(cityValue).child("currently");
+          currentRef.on("value", function(s) {
+            self.renderCityInfo(s.val());
+          });
+        });
+
+        self.$citySelector.change();
+      },
+
+      /*
+       * renderCityInfo
+       *
+       * render the city temperature in the UI
+       */
+
+      renderCityInfo: function(data) {
+        this.$weatherTemperature.html(data.apparentTemperature + " &#176;F");
+        this.$weatherSummary.html(data.summary);
+      }
+    };
+
+    $(document).ready(function(){
+      weather.init();
+    });
+  </script>
+
+  <style>
+    .weather-opendata-example {
+      width: 240px;
+      margin: 20px auto;
+    }
+
+    header {
+      text-align: center;
+      font-family: proxima-nova,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  </style>
+</body>
