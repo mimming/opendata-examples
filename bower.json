@@ -1,0 +1,21 @@
+{
+  "name": "opendata-examples",
+  "version": "0.0.1",
+  "authors": [
+    "Joey Yang <joey@firebase.com>"
+  ],
+  "description": "Firebase Open Data Sets examples",
+  "keywords": [
+    "Firebase",
+    "GeoFire"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/firebase/opendata-examples",
+  "private": true,
+  "dependencies": {
+    "firebase": "~2.2.4",
+    "jquery": "~2.1.3",
+    "lodash": "~3.6.0",
+    "geofire": "~3.2.2"
+  }
+}
