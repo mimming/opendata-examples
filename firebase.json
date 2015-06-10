@@ -1,0 +1,9 @@
+{
+  "firebase": "wherebus",
+  "public": "./",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
