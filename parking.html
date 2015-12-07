@@ -1,11 +1,26 @@
 <!DOCTYPE html>
+<!--
+Copyright 2015 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
 
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6U2ExB8yLDc7RiGPYK3C3yIzDPpyFJE0&sensor=false"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6U2ExB8yLDc7RiGPYK3C3yIzDPpyFJE0"></script>
   <script src="bower_components/firebase/firebase.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/lodash/lodash.js"></script>
@@ -20,14 +35,43 @@
   <meta name="robots" content="all">
 
   <title>Firebase Open Data Sets examples - Parking</title>
+
+  <style>
+    .gm-style label {
+      width: auto;
+      display: inline;
+    }
+
+    .google-maps img, .gm-style img {
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    #map-canvas {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .parking-opendata-example {
+      height: 100%;
+      width: 100%;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
 </head>
 
 <body>
-  <header>
-    Firebase Open Data Sets Examples - Parking
-  </header>
 
-  <div class="parking-opendata-example" id="map-canvas"></div><br />
+
+  <div class="parking-opendata-example" id="map-canvas"></div>
 
   <script>
     /**
@@ -296,20 +340,4 @@
     });
   </script>
 
-  <style>
-    header {
-      text-align: center;
-      font-family: proxima-nova,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .gm-style label { width: auto; display: inline; }
-    .google-maps img, .gm-style img {
-        max-width: none !important;
-        max-height: none !important;
-    }
-    #map-canvas {
-        width: 600px; height: 400px; margin: 0 auto;
-    }
-  </style>
 </body>
